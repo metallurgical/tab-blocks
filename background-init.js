@@ -80,6 +80,11 @@ function closedTab ( newlyCreatedTab, activeTab ) {
 
 	if ( activeTabUrlObj.hostname.indexOf( newlyCreatedTabUrlObj.hostname ) === -1 ) 
 		chrome.tabs.remove( newlyCreatedTab.id );
+
+	configContainer = configContainer.filter( function( el ) {
+	    return el.id !== newlyCreatedTab.id;
+	});
+	
 }
 
 // receive message from content script

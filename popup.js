@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				
 				var flagState, sendObjData = {};
 				// change state
-				response.state = !response.state;
+				response.state = ( response.state ) ? false : true;
 				// change state text on popup
 				autoStartTxt.innerText = response.state;
 				// change button's text
