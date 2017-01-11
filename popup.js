@@ -1,8 +1,13 @@
 // wait for dom content is load
+var toggleAds, autoStartTxt;
 document.addEventListener('DOMContentLoaded', function() {
+
 	// get popup's element's DOM
-	var toggleAds = document.getElementById( 'toggleAds' );
-	var autoStartTxt = document.getElementById( 'autoStartTxt' );
+	toggleAds = document.getElementById( 'toggleAds' );
+	autoStartTxt = document.getElementById( 'autoStartTxt' );
+
+	showInitialState();
+	
 	// register click event on Button
 	toggleAds.addEventListener( 'click', function () {	
 
@@ -30,6 +35,8 @@ document.addEventListener('DOMContentLoaded', function() {
 					state : response.state,
 					type : 'updateConfig'
 				};
+
+				console.log(sendObjData)
 				// update tab's config again
 				updateConfig ( sendObjData );
 
@@ -42,9 +49,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+// update configContainer's data
 function updateConfig ( sendObjData ) {
 
 	chrome.runtime.sendMessage( sendObjData, function ( response ) {
+
+	});
+
+}
+
+// show current state
+function showInitialState () {
+
+	chrome.tabs.query({active: true, currentWindow: true}, function( tabs ) {
+		
+		// current/Active Tab's ID
+		var currentActiveTab = tabs[0];
+		// data to send to background script
+		var sendObjData = { type : 'getConfig', tab : currentActiveTab };
+		// send message to background script
+		chrome.runtime.sendMessage( sendObjData, function ( response ) {
+			autoStartTxt.innerText = response.state;
+			toggleAds.innerText = ( response.state ) ? 'Turn Off' : 'Turn On';
+		});
 
 	});
 

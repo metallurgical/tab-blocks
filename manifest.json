@@ -22,6 +22,7 @@
     }
   ],
   "background": {
-    "scripts": ["background-init.js"]
+    "scripts": ["background-init.js"],
+    "persistent" : false
   }
 }
